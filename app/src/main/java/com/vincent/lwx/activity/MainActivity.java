@@ -1,9 +1,11 @@
-package com.vincent.lwx;
+package com.vincent.lwx.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.li.vincent.guideuser.GuideActivity;
+import com.vincent.lwx.R;
 import com.vincent.lwx.base.BaseActivity;
 
 public class MainActivity extends BaseActivity {
@@ -14,10 +16,9 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
     }
 
-    private void goGuide(){
-        Intent intent = new Intent(MainActivity.this, GuideActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+    public static void actionStart(Context context){
+        Intent intent = new Intent(context,MainActivity.class);
+        context.startActivity(intent);
     }
 
 }

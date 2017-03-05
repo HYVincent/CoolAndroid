@@ -4,6 +4,7 @@ import com.vincent.lwx.conf.Config;
 import com.vincent.lwx.network.service.ApiService;
 
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * description ：
@@ -19,7 +20,7 @@ public class RetrofitUtils {
     private static Retrofit retrofit;
     private static RetrofitUtils retrofitUtils;
 
-    public RetrofitUtils(){
+    private RetrofitUtils(){
         if(retrofit == null){
             retrofit = new Retrofit.Builder()
                     .baseUrl(Config.SERVICE_API_ADDRESS)
@@ -27,17 +28,39 @@ public class RetrofitUtils {
                     .build();
         }
     }
-
-    public static ApiService getRetrofit(){
+    public static Retrofit getRetrofit(){
         if(retrofit == null){
-            retrofitUtils = new RetrofitUtils();
+            RetrofitUtils.getInstance();
         }
-        retrofit = new Retrofit.Builder()
-                .baseUrl(Config.SERVICE_API_ADDRESS)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        ApiService apiService = retrofit.create(ApiService.class);
-        return apiService;
+        return retrofit;
     }
+
+    /**
+     * 获取apiService对象
+     * @return
+     */
+    public static ApiService getApiService(){
+        if(retrofit == null){
+            getRetrofit();
+        }
+        return retrofit.create(ApiService.class);
+    }
+
+    /**
+     * 获取一个单例模式的RetrofitUtils对象
+     * @return
+     */
+    public static RetrofitUtils getInstance(){
+        if(retrofitUtils == null){
+            synchronized (RetrofitUtils.class){
+                if(retrofitUtils == null){
+                    retrofitUtils = new RetrofitUtils();
+                }
+            }
+        }
+        return retrofitUtils;
+    }
+
+
 
 }

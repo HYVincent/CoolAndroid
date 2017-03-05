@@ -2,6 +2,7 @@ package com.vincent.lwx.base;
 
 import android.app.Application;
 
+import com.vincent.lwx.bean.User;
 import com.vincent.lwx.conf.Config;
 import com.vincent.lwx.utils.SharePreferencesUtils;
 
@@ -18,11 +19,13 @@ public class BaseApplication extends Application {
 
     private static  BaseApplication application;
     private static SharePreferencesUtils shared;
+    public static User user;
 
     @Override
     public void onCreate() {
         super.onCreate();
         application = this;
+        user = new User();
     }
 
     /**
